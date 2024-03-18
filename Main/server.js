@@ -198,3 +198,4 @@ function deleteRole() {
 function deleteEmployee() {
   // Write code to prompt user for employee to delete and execute SQL delete query
 }
+ 

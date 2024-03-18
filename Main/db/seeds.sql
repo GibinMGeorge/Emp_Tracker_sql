@@ -14,11 +14,12 @@ VALUES (1, "Software Engineer", 125000),
        (4, "Lawyer", 100000);
 
        
-INSERT INTO employee (first_name, last_name, department_id, manager_id)
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES 
   ("John", "Doe", 1, NULL), 
   ("Jane", "Doe", 2, 1),    
   ("Jon", "Snow", 1, 1),    
   ("Peter", "Parker", 3, NULL),
   ("Doe", "Jon", 4, NULL),     
-  ("Random", "Guy", 1, 1);  
+  ("Random", "Guy", 1, 1); 
+ 

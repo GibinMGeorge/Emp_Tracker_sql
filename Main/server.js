@@ -156,18 +156,103 @@ function addDepartment() {
 
 // Function to add a role
 function addRole() {
-  // Write code to prompt user for role details and insert into database
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'title',
+          message: 'Enter the title of the role:',
+        },
+        {
+          type: 'input',
+          name: 'salary',
+          message: 'Enter the salary for the role:',
+        },
+        {
+          type: 'input',
+          name: 'department_id',
+          message: 'Enter the department ID for the role:',
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)',
+          [answers.title, answers.salary, answers.department_id],
+          (err) => {
+            if (err) throw err;
+            console.log('Role added successfully.');
+            startApp();
+          }
+        );
+    });
 }
+  
 
 // Function to add an employee
 function addEmployee() {
-  // Write code to prompt user for employee details and insert into database
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'first_name',
+          message: "Enter the employee's first name:",
+        },
+        {
+          type: 'input',
+          name: 'last_name',
+          message: "Enter the employee's last name:",
+        },
+        {
+          type: 'input',
+          name: 'role_id',
+          message: "Enter the employee's role ID:",
+        },
+        {
+          type: 'input',
+          name: 'manager_id',
+          message: "Enter the employee's manager ID:",
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
+          [answers.first_name, answers.last_name, answers.role_id, answers.manager_id],
+          (err) => {
+            if (err) throw err;
+            console.log('Employee added successfully.');
+            startApp();
+          }
+        );
+    });
 }
 
 // Function to update an employee role
 function updateEmployeeRole() {
-  // Write code to prompt user for employee and new role details and update database
-}
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'employee_id',
+          message: 'Enter the ID of the employee to update:',
+        },
+        {
+          type: 'input',
+          name: 'new_role_id',
+          message: 'Enter the new role ID for the employee:',
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          'UPDATE employee SET role_id = ? WHERE id = ?',
+          [answers.new_role_id, answers.employee_id],
+          (err) => {
+            if (err) throw err;
+            console.log('Employee role updated successfully.');
+            startApp();
+          }
+        );
+      });
+  }
 
 // Function to update employee managers
 function updateEmployeeManager() {

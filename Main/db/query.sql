@@ -35,8 +35,8 @@ WHERE id = <employee_id>;
 
 -- Update employee managers
 UPDATE employee
-SET manager_id = :new_manager_id
-WHERE id = :employee_id;
+SET manager_id = <new_manager_id>
+WHERE id = <employee_id>;
 
 -- View employees by manager
 SELECT 
@@ -60,15 +60,12 @@ ORDER BY department_name;
 
 -- Delete departments
 DELETE FROM department
-WHERE id = :department_id;
+WHERE id = <department_id>;
 
 -- Delete roles
 DELETE FROM role
-WHERE id = :role_id;
+WHERE id = <role_id>;
 
 -- Delete employees
 DELETE FROM employee
-WHERE id = :employee_id;
-
-
-
+WHERE id = <employee_id>;

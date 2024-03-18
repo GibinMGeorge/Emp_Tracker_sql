@@ -4,7 +4,7 @@ const mysql = require('mysql');
 // Create a MySQL connection
 const connection = mysql.createConnection({
   host: 'localhost',
-  port: 3306,
+  port: 3000,
   user: 'root',
   password: 'root',
   database: 'emp_db',
@@ -251,36 +251,142 @@ function updateEmployeeRole() {
             startApp();
           }
         );
-      });
-  }
+    });
+}
 
 // Function to update employee managers
 function updateEmployeeManager() {
-  // Write code to prompt user for employee and new manager details and update database
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'employee_id',
+          message: 'Enter the ID of the employee to update:',
+        },
+        {
+          type: 'input',
+          name: 'new_manager_id',
+          message: 'Enter the ID of the new manager for the employee:',
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          'UPDATE employee SET manager_id = ? WHERE id = ?',
+          [answers.new_manager_id, answers.employee_id],
+          (err) => {
+            if (err) throw err;
+            console.log('Employee manager updated successfully.');
+            startApp();
+          }
+        );
+    });
 }
+  
 
 // Function to view employees by manager
 function viewEmployeesByManager() {
-  // Write code to execute SQL query for viewing employees by manager
+    connection.query(
+      `SELECT 
+          m.id AS manager_id, 
+          CONCAT(m.first_name, ' ', m.last_name) AS manager_name, 
+          e.id AS employee_id, 
+          CONCAT(e.first_name, ' ', e.last_name) AS employee_name
+        FROM employee e
+        JOIN employee m ON e.manager_id = m.id
+        ORDER BY manager_name`,
+      (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        startApp();
+      }
+    );
 }
 
 // Function to view employees by department
 function viewEmployeesByDepartment() {
-  // Write code to execute SQL query for viewing employees by department
+    connection.query(
+      `SELECT 
+          d.id AS department_id,
+          d.name AS department_name,
+          e.id AS employee_id,
+          CONCAT(e.first_name, ' ', e.last_name) AS employee_name
+        FROM employee e
+        JOIN department d ON e.department_id = d.id
+        ORDER BY department_name`,
+      (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        startApp();
+      }
+    );
 }
-
-// Function to delete a department
-function deleteDepartment() {
-  // Write code to prompt user for department to delete and execute SQL delete query
+  
+  // Function to delete a department
+  function deleteDepartment() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'department_id',
+          message: 'Enter the ID of the department to delete:',
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          'DELETE FROM department WHERE id = ?',
+          [answers.department_id],
+          (err) => {
+            if (err) throw err;
+            console.log('Department deleted successfully.');
+            startApp();
+          }
+        );
+    });
 }
-
-// Function to delete a role
-function deleteRole() {
-  // Write code to prompt user for role to delete and execute SQL delete query
+  
+  // Function to delete a role
+  function deleteRole() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'role_id',
+          message: 'Enter the ID of the role to delete:',
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          'DELETE FROM role WHERE id = ?',
+          [answers.role_id],
+          (err) => {
+            if (err) throw err;
+            console.log('Role deleted successfully.');
+            startApp();
+          }
+        );
+    });
 }
-
-// Function to delete an employee
-function deleteEmployee() {
-  // Write code to prompt user for employee to delete and execute SQL delete query
+  
+  // Function to delete an employee
+  function deleteEmployee() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'employee_id',
+          message: 'Enter the ID of the employee to delete:',
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          'DELETE FROM employee WHERE id = ?',
+          [answers.employee_id],
+          (err) => {
+            if (err) throw err;
+            console.log('Employee deleted successfully.');
+            startApp();
+          }
+        );
+    });
 }
  

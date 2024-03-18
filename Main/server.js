@@ -91,3 +91,110 @@ function startApp() {
     });
 }
 
+// Function to view all departments
+function viewDepartments() {
+  connection.query('SELECT id, name FROM department', (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    startApp();
+  });
+}
+
+// Function to view all roles
+function viewRoles() {
+  connection.query(
+    'SELECT r.id, r.title, r.salary, d.name AS department FROM role r JOIN department d ON r.department_id = d.id',
+    (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      startApp();
+    }
+  );
+}
+
+// Function to view all employees
+function viewEmployees() {
+  connection.query(
+    `SELECT 
+        e.id, e.first_name, e.last_name, 
+        r.title AS job_title, d.name AS department, 
+        r.salary, CONCAT(m.first_name, ' ', m.last_name) AS manager
+    FROM employee e
+    JOIN role r ON e.role_id = r.id
+    JOIN department d ON r.department_id = d.id
+    LEFT JOIN employee m ON e.manager_id = m.id`,
+    (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      startApp();
+    }
+  );
+}
+
+// Function to add a department
+function addDepartment() {
+  inquirer
+    .prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Enter the name of the department:',
+      },
+    ])
+    .then((answers) => {
+      connection.query(
+        'INSERT INTO department SET ?',
+        { name: answers.name },
+        (err) => {
+          if (err) throw err;
+          console.log('Department added successfully.');
+          startApp();
+        }
+      );
+    });
+}
+
+// Function to add a role
+function addRole() {
+  // Write code to prompt user for role details and insert into database
+}
+
+// Function to add an employee
+function addEmployee() {
+  // Write code to prompt user for employee details and insert into database
+}
+
+// Function to update an employee role
+function updateEmployeeRole() {
+  // Write code to prompt user for employee and new role details and update database
+}
+
+// Function to update employee managers
+function updateEmployeeManager() {
+  // Write code to prompt user for employee and new manager details and update database
+}
+
+// Function to view employees by manager
+function viewEmployeesByManager() {
+  // Write code to execute SQL query for viewing employees by manager
+}
+
+// Function to view employees by department
+function viewEmployeesByDepartment() {
+  // Write code to execute SQL query for viewing employees by department
+}
+
+// Function to delete a department
+function deleteDepartment() {
+  // Write code to prompt user for department to delete and execute SQL delete query
+}
+
+// Function to delete a role
+function deleteRole() {
+  // Write code to prompt user for role to delete and execute SQL delete query
+}
+
+// Function to delete an employee
+function deleteEmployee() {
+  // Write code to prompt user for employee to delete and execute SQL delete query
+}

@@ -1,0 +1,17 @@
+{
+  "name": "emp_database",
+  "version": "1.0.0",
+  "description": "Used to track employee details",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "GMG",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^9.2.16",
+    "mysql2": "^3.9.2"
+  }
+}

@@ -58,6 +58,7 @@ FROM employee e
 JOIN department d ON e.department_id = d.id
 ORDER BY department_name;
 
+
 -- Delete departments
 DELETE FROM department
 WHERE id = <department_id>;
@@ -69,3 +70,16 @@ WHERE id = <role_id>;
 -- Delete employees
 DELETE FROM employee
 WHERE id = <employee_id>;
+
+-- View the total utilized budget of each department
+
+SELECT 
+    d.id AS department_id,
+    d.name AS department_name,
+    SUM(r.salary) AS total_budget
+FROM 
+    role r
+JOIN 
+    department d ON r.department_id = d.id
+GROUP BY 
+    d.id, d.name`;

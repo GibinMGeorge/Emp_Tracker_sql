@@ -36,6 +36,7 @@ function startApp() {
           'Delete a department',
           'Delete a role',
           'Delete an employee',
+          'View total utilized budget of each department',
           'Exit',
         ],
       },
@@ -80,6 +81,9 @@ function startApp() {
           break;
         case 'Delete an employee':
           deleteEmployee();
+          break;
+        case 'View total utilized budget of each department':
+          viewTotalBudgetByDepartment();
           break;
         case 'Exit':
           connection.end();
@@ -289,8 +293,8 @@ async function viewEmployeesByDepartment() {
         e.id AS employee_id,
         CONCAT(e.first_name, ' ', e.last_name) AS employee_name
       FROM employee e
-      JOIN department d ON e.department_id = d.id
-      ORDER BY department_name`);
+    JOIN department d ON e.department_id = d.id
+    ORDER BY department_name;`);
     console.table(rows);
     startApp();
   } catch (error) {
@@ -353,6 +357,31 @@ async function deleteEmployee() {
   } catch (error) {
     console.error('Error deleting employee:', error);
     startApp();
+  }
+}
+
+// Function to view total utilized budget of each department
+// Function to view total utilized budget of each department
+async function viewTotalBudgetByDepartment() {
+  try {
+    const query = `
+      SELECT 
+          d.id AS department_id,
+          d.name AS department_name,
+          SUM(r.salary) AS total_budget
+      FROM 
+          role r
+      JOIN 
+          department d ON r.department_id = d.id
+      GROUP BY 
+          d.id, d.name`;
+
+    const results = await connection.query(query);
+    console.table(results);
+    startApp(); // Assuming startApp() is a function to initiate further actions
+  } catch (error) {
+    console.error('Error viewing total budget by department:', error);
+    startApp(); // Assuming startApp() is a function to handle errors and continue the application flow
   }
 }
 

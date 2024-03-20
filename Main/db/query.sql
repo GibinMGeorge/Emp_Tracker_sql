@@ -82,4 +82,4 @@ FROM
 JOIN 
     department d ON r.department_id = d.id
 GROUP BY 
-    d.id, d.name`;
+    d.id, d.name;

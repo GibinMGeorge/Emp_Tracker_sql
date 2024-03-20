@@ -361,7 +361,6 @@ async function deleteEmployee() {
 }
 
 // Function to view total utilized budget of each department
-// Function to view total utilized budget of each department
 async function viewTotalBudgetByDepartment() {
   try {
     const query = `
